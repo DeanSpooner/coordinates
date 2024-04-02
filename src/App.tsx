@@ -1,13 +1,25 @@
 import { useCallback, useEffect, useState } from "react";
-import ArrowSvg from "./assets/arrow.svg"; // Importing the SVG file
+// import ArrowSvg from "./assets/arrow.svg"; // Importing the SVG file
 import "./App.css";
+import Chevron from "./assets/Chevron";
+import styled from "styled-components";
+import { integerRange, randomInteger } from "./utils/number";
+import ArrowTurn from "./assets/ArrowTurn";
+import ArrowStraight from "./assets/ArrowStraight";
 
 function App() {
   const [direction, setDirection] = useState("up");
 
   const [rotation, setRotation] = useState(90);
 
-  const [coordinates, setCoordinates] = useState([0, 0]);
+  const [coordinates, setCoordinates] = useState([2, 2]);
+
+  const [pelletCoordinates, setPelletCoordinates] = useState([
+    randomInteger(0, 4, [2]),
+    randomInteger(0, 4, [2]),
+  ]);
+
+  const [score, setScore] = useState(0);
 
   const leftKey = useCallback(() => {
     setRotation(prevRotation => prevRotation - 90);
@@ -105,45 +117,67 @@ function App() {
     };
   }, [handleKeyDown]); // Add handleKeyDown as a dependency
 
+  useEffect(() => {
+    if (
+      coordinates[0] === pelletCoordinates[0] &&
+      coordinates[1] === pelletCoordinates[1]
+    ) {
+      setPelletCoordinates([
+        randomInteger(0, 4, [coordinates[0]]),
+        randomInteger(0, 4, [coordinates[1]]),
+      ]);
+      setScore(score + 1);
+    }
+  }, [coordinates, pelletCoordinates, score]);
+
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "80vh",
+        justifyContent: "space-around",
+      }}
+    >
       <p>
         Direction: <strong>{direction}</strong>
+      </p>
+
+      <p>
+        Score: <strong>{score}</strong>
       </p>
       <p>
         Coordinates: x {coordinates[0]}, y {coordinates[1]}
       </p>
-      <div style={{ flexDirection: "column", display: "flex" }}>
-        {[0, 1, 2, 3, 4].map(arr => {
+      <div
+        style={{
+          flexDirection: "column",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {integerRange(0, 4).map(arr => {
           return (
-            <div style={{ flexDirection: "row", display: "flex" }}>
-              {[0, 1, 2, 3, 4].map(num => {
+            <div style={{ flexDirection: "row", display: "flex" }} key={arr}>
+              {integerRange(0, 4).map(num => {
                 return (
-                  <div
-                    style={{
-                      borderWidth: 2,
-                      borderRightWidth: num === 4 ? 2 : 0,
-                      borderBottomWidth: arr === 4 ? 2 : 0,
-                      borderColor: "#0faabf",
-                      borderStyle: "solid",
-                      width: "5vh",
-                      height: "5vh",
-                    }}
-                  >
+                  <Cell num={num} arr={arr} key={num}>
                     {coordinates[0] === num && coordinates[1] === arr ? (
-                      <img
-                        src={ArrowSvg}
-                        alt="Arrow"
+                      <Chevron
                         style={{
                           transform: `rotate(${rotation}deg)`,
                           transition: "transform 0.3s ease",
-                          maxHeight: "4.5vh",
+                          height: "6vmin",
+                          width: "6vmin",
                         }}
                       />
+                    ) : pelletCoordinates[0] === num &&
+                      pelletCoordinates[1] === arr ? (
+                      <Pellet />
                     ) : (
                       <></>
                     )}
-                  </div>
+                  </Cell>
                 );
               })}
             </div>
@@ -151,15 +185,72 @@ function App() {
         })}
       </div>
       <div>
-        <button onClick={() => upKey()}>UP</button>
+        <DirectionButton onClick={() => upKey()}>
+          <ArrowStraight
+            style={{
+              height: "8vh",
+              width: "8vh",
+            }}
+          />
+        </DirectionButton>
         <div>
-          <button onClick={() => leftKey()}>LEFT</button>
-          <button onClick={() => rightKey()}>RIGHT</button>
+          <DirectionButton onClick={() => leftKey()}>
+            <ArrowTurn
+              style={{
+                height: "8vh",
+                width: "8vh",
+                transform: "rotate(90deg) scaleY(-1)",
+              }}
+            />
+          </DirectionButton>
+          <DirectionButton onClick={() => rightKey()}>
+            <ArrowTurn
+              style={{
+                height: "8vh",
+                width: "8vh",
+                transform: "rotate(90deg)",
+              }}
+            />
+          </DirectionButton>
         </div>
-        <button onClick={() => downKey()}>DOWN</button>
+        <DirectionButton onClick={() => downKey()}>
+          {" "}
+          <ArrowStraight
+            style={{
+              height: "8vh",
+              width: "8vh",
+              transform: "scaleY(-1)",
+            }}
+          />
+        </DirectionButton>
       </div>
     </div>
   );
 }
+
+const Cell = styled.div<{ num?: number; arr?: number }>`
+  display: flex;
+  border: 2px solid #0faabf;
+  border-right-width: ${props => (props.num === 4 ? "2px" : 0)};
+  border-bottom-width: ${props => (props.arr === 4 ? "2px" : 0)};
+  width: 8vmin;
+  height: 8vmin;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DirectionButton = styled.button`
+  width: 40vw;
+  max-width: 200px;
+  height: 10vh;
+`;
+
+const Pellet = styled.div`
+  width: 5vmin;
+  height: 5vmin;
+  border: 2px solid mediumspringgreen;
+  border-radius: 50%;
+  background-color: gold;
+`;
 
 export default App;
