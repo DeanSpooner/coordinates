@@ -32,30 +32,46 @@ function App() {
   const upKey = useCallback(() => {
     setCoordinates(prevCoordinates => {
       if (direction === "up") {
-        return [prevCoordinates[0], prevCoordinates[1] + 1]; // Increase y coordinate when moving up
+        return prevCoordinates[1] === 0
+          ? [prevCoordinates[0], prevCoordinates[1]]
+          : [prevCoordinates[0], prevCoordinates[1] - 1]; // Decrease y coordinate when moving up
       }
       if (direction === "right") {
-        return [prevCoordinates[0] + 1, prevCoordinates[1]]; // Increase x coordinate when moving right
+        return prevCoordinates[0] === 4
+          ? [prevCoordinates[0], prevCoordinates[1]]
+          : [prevCoordinates[0] + 1, prevCoordinates[1]]; // Increase x coordinate when moving right
       }
       if (direction === "down") {
-        return [prevCoordinates[0], prevCoordinates[1] - 1]; // Decrease y coordinate when moving down
+        return prevCoordinates[1] === 4
+          ? [prevCoordinates[0], prevCoordinates[1]]
+          : [prevCoordinates[0], prevCoordinates[1] + 1]; // Increase y coordinate when moving down
       }
-      return [prevCoordinates[0] - 1, prevCoordinates[1]]; // Decrease x coordinate when moving left
+      return prevCoordinates[0] === 0
+        ? [prevCoordinates[0], prevCoordinates[1]]
+        : [prevCoordinates[0] - 1, prevCoordinates[1]]; // Decrease x coordinate when moving left
     });
   }, [setCoordinates, direction]);
 
   const downKey = useCallback(() => {
     setCoordinates(prevCoordinates => {
       if (direction === "up") {
-        return [prevCoordinates[0], prevCoordinates[1] - 1]; // Decrease y coordinate when facing up
+        return prevCoordinates[1] === 4
+          ? [prevCoordinates[0], prevCoordinates[1]]
+          : [prevCoordinates[0], prevCoordinates[1] + 1]; // Increase y coordinate when facing up
       }
       if (direction === "right") {
-        return [prevCoordinates[0] - 1, prevCoordinates[1]]; // Decrease x coordinate when facing right
+        return prevCoordinates[0] === 0
+          ? [prevCoordinates[0], prevCoordinates[1]]
+          : [prevCoordinates[0] - 1, prevCoordinates[1]]; // Decrease x coordinate when facing right
       }
       if (direction === "down") {
-        return [prevCoordinates[0], prevCoordinates[1] + 1]; // Increase y coordinate when facing down
+        return prevCoordinates[1] === 0
+          ? [prevCoordinates[0], prevCoordinates[1]]
+          : [prevCoordinates[0], prevCoordinates[1] - 1]; // Decrease y coordinate when facing down
       }
-      return [prevCoordinates[0] + 1, prevCoordinates[1]]; // Increase x coordinate when facing left
+      return prevCoordinates[0] === 4
+        ? [prevCoordinates[0], prevCoordinates[1]]
+        : [prevCoordinates[0] + 1, prevCoordinates[1]]; // Increase x coordinate when facing left
     });
   }, [setCoordinates, direction]);
 
@@ -91,26 +107,57 @@ function App() {
 
   return (
     <div>
-      <p>Press the left or right arrow key:</p>
       <p>
         Direction: <strong>{direction}</strong>
       </p>
       <p>
         Coordinates: x {coordinates[0]}, y {coordinates[1]}
       </p>
-      <button onClick={() => upKey()}>UP</button>
-      <button onClick={() => leftKey()}>LEFT</button>
-      <button onClick={() => rightKey()}>RIGHT</button>
-      <button onClick={() => downKey()}>DOWN</button>
-      <img
-        src={ArrowSvg}
-        alt="Arrow"
-        style={{
-          transform: `rotate(${rotation}deg)`,
-          transition: "transform 0.3s ease",
-          maxHeight: "20vh",
-        }}
-      />
+      <div style={{ flexDirection: "column", display: "flex" }}>
+        {[0, 1, 2, 3, 4].map(arr => {
+          return (
+            <div style={{ flexDirection: "row", display: "flex" }}>
+              {[0, 1, 2, 3, 4].map(num => {
+                return (
+                  <div
+                    style={{
+                      borderWidth: 2,
+                      borderRightWidth: num === 4 ? 2 : 0,
+                      borderBottomWidth: arr === 4 ? 2 : 0,
+                      borderColor: "#0faabf",
+                      borderStyle: "solid",
+                      width: "5vh",
+                      height: "5vh",
+                    }}
+                  >
+                    {coordinates[0] === num && coordinates[1] === arr ? (
+                      <img
+                        src={ArrowSvg}
+                        alt="Arrow"
+                        style={{
+                          transform: `rotate(${rotation}deg)`,
+                          transition: "transform 0.3s ease",
+                          maxHeight: "4.5vh",
+                        }}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+      <div>
+        <button onClick={() => upKey()}>UP</button>
+        <div>
+          <button onClick={() => leftKey()}>LEFT</button>
+          <button onClick={() => rightKey()}>RIGHT</button>
+        </div>
+        <button onClick={() => downKey()}>DOWN</button>
+      </div>
     </div>
   );
 }
