@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-// import ArrowSvg from "./assets/arrow.svg"; // Importing the SVG file
 import "./App.css";
 import Chevron from "./assets/Chevron";
 import styled from "styled-components";
 import { integerRange, randomInteger } from "./utils/number";
 import ArrowTurn from "./assets/ArrowTurn";
 import ArrowStraight from "./assets/ArrowStraight";
+import ReactHowler from "react-howler";
+import wonder from "./assets/wonder.mp3";
 
 function App() {
   const [direction, setDirection] = useState("up");
@@ -139,6 +140,7 @@ function App() {
         justifyContent: "space-around",
       }}
     >
+      <ReactHowler src={wonder} playing={true} loop />
       <p>
         Direction: <strong>{direction}</strong>
       </p>
