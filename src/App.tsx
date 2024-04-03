@@ -65,8 +65,12 @@ function App() {
         playing={!isMusicMuted}
       />
       {screen === "start" && <Start setScreen={setScreen} />}
-      {screen === "game" && (
-        <GameScreen setScreen={setScreen} isSfxMuted={isSfxMuted} />
+      {(screen === "game" || screen === "gameHard") && (
+        <GameScreen
+          setScreen={setScreen}
+          isSfxMuted={isSfxMuted}
+          isHard={screen === "gameHard"}
+        />
       )}
     </>
   );

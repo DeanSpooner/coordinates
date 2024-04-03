@@ -8,6 +8,7 @@ const Start = ({
   return (
     <div>
       <button onClick={() => setScreen("game")}>Start</button>
+      <button onClick={() => setScreen("gameHard")}>Start Hard</button>
     </div>
   );
 };

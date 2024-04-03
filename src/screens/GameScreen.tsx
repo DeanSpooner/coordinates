@@ -9,15 +9,28 @@ import { playSound } from "../utils/sounds";
 const GameScreen = ({
   setScreen,
   isSfxMuted,
+  isHard = false,
 }: {
   setScreen: React.Dispatch<React.SetStateAction<string>>;
   isSfxMuted: boolean;
+  isHard?: boolean;
 }) => {
   const [direction, setDirection] = useState("up");
 
   const [rotation, setRotation] = useState(90);
 
   const [coordinates, setCoordinates] = useState([2, 2]);
+
+  const xOrY = randomInteger(0, 1);
+  const selectedCells = randomInteger(0, 4, [2]);
+
+  const [deadCells, setDeadCells] = useState(
+    isHard ? (xOrY === 0 ? [selectedCells, -1] : [-1, selectedCells]) : [-1, -1]
+  );
+
+  const [deadCellsActive, setDeadCellsActive] = useState(false);
+
+  const [deadCellTimer, setDeadCellTimer] = useState(5000);
 
   const [pelletCoordinates, setPelletCoordinates] = useState([
     randomInteger(0, 4, [2]),
@@ -134,7 +147,34 @@ const GameScreen = ({
       setScore(score + 1);
       !isSfxMuted && playSound("point");
     }
-  }, [coordinates, isSfxMuted, pelletCoordinates, score]);
+    if (
+      coordinates[0] === deadCells[0] ||
+      (coordinates[1] === deadCells[1] && deadCellsActive)
+    ) {
+      setScore(0);
+    }
+  }, [
+    coordinates,
+    deadCells,
+    deadCellsActive,
+    isSfxMuted,
+    pelletCoordinates,
+    score,
+  ]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (isHard) {
+        const xOrY = randomInteger(0, 1);
+        const selectedCells = randomInteger(0, 4, [deadCells[xOrY]]);
+        setDeadCells(xOrY === 0 ? [selectedCells, -1] : [-1, selectedCells]);
+        setDeadCellsActive(true);
+      }
+      setDeadCellTimer(randomInteger(2, 7) * 1000);
+    }, deadCellTimer);
+
+    return () => clearInterval(intervalId); // Cleanup to avoid memory leaks
+  }, [deadCellTimer, deadCells, isHard]);
 
   return (
     <div
@@ -160,7 +200,12 @@ const GameScreen = ({
             <div style={{ flexDirection: "row", display: "flex" }} key={arr}>
               {integerRange(0, 4).map(num => {
                 return (
-                  <Cell num={num} arr={arr} key={num}>
+                  <Cell
+                    num={num}
+                    arr={arr}
+                    key={num}
+                    isDeadCell={num === deadCells[0] || arr === deadCells[1]}
+                  >
                     {coordinates[0] === num && coordinates[1] === arr ? (
                       <Chevron
                         style={{
@@ -227,7 +272,7 @@ const GameScreen = ({
   );
 };
 
-const Cell = styled.div<{ num?: number; arr?: number }>`
+const Cell = styled.div<{ num?: number; arr?: number; isDeadCell?: boolean }>`
   display: flex;
   border: 2px solid #0faabf;
   border-right-width: ${props => (props.num === 4 ? "2px" : 0)};
@@ -236,6 +281,8 @@ const Cell = styled.div<{ num?: number; arr?: number }>`
   height: 8vmin;
   justify-content: center;
   align-items: center;
+  background-color: ${props => (props.isDeadCell ? "red" : "transparent")};
+  transition: background-color 1s ease-in-out; /* Add transition for smoother effect */
 `;
 
 const DirectionButton = styled.button`
