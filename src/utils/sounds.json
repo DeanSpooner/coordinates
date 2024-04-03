@@ -1,3 +1,4 @@
 {
-    "point": "sfx/chime.mp3"
+    "point": "sfx/chime.mp3",
+    "beeps": "sfx/beeps.mp3"
 }

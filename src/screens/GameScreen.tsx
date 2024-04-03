@@ -285,7 +285,7 @@ const GameScreen = ({
 
 const Cell = styled.div<{ num?: number; arr?: number; isDeadCell?: boolean }>`
   display: flex;
-  border: 2px solid #0faabf;
+  border: 2px solid #4169e2;
   border-right-width: ${props => (props.num === 4 ? "2px" : 0)};
   border-bottom-width: ${props => (props.arr === 4 ? "2px" : 0)};
   width: 8vmin;

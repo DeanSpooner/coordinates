@@ -7,6 +7,7 @@ import { getMusicPath } from "./utils/music";
 import styled from "styled-components";
 import Speaker from "./assets/Speaker";
 import MusicSymbol from "./assets/MusicSymbol";
+import TimerScreen from "./screens/TimerScreen";
 
 function App() {
   const [screen, setScreen] = useState("start");
@@ -65,6 +66,9 @@ function App() {
         playing={!isMusicMuted}
       />
       {screen === "start" && <Start setScreen={setScreen} />}
+      {(screen === "timerGame" || screen === "timerGameHard") && (
+        <TimerScreen setScreen={setScreen} currentScreen={screen} />
+      )}
       {(screen === "game" || screen === "gameHard") && (
         <GameScreen
           setScreen={setScreen}

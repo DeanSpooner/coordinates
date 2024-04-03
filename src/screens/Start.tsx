@@ -7,8 +7,8 @@ const Start = ({
 }) => {
   return (
     <div>
-      <button onClick={() => setScreen("game")}>Start</button>
-      <button onClick={() => setScreen("gameHard")}>Start Hard</button>
+      <button onClick={() => setScreen("timerGame")}>Start</button>
+      <button onClick={() => setScreen("timerGameHard")}>Start Hard</button>
     </div>
   );
 };
