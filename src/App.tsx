@@ -13,6 +13,7 @@ function App() {
 
   const [isMusicMuted, setIsMusicMuted] = useState(true);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [track, setTrack] = useState(getMusicPath("wonder"));
 
   const [isSfxMuted, setIsSfxMuted] = useState(false);
