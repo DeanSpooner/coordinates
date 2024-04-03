@@ -6,6 +6,7 @@ import Chevron from "../assets/Chevron";
 import { randomInteger, integerRange } from "../utils/number";
 import wonder from "../assets/wonder.mp3";
 import ReactHowler from "react-howler";
+import { playSound } from "../utils/sounds";
 
 const GameScreen = ({
   setScreen,
@@ -131,6 +132,7 @@ const GameScreen = ({
         randomInteger(0, 4, [coordinates[1]]),
       ]);
       setScore(score + 1);
+      playSound("point");
     }
   }, [coordinates, pelletCoordinates, score]);
 
