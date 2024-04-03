@@ -4,8 +4,6 @@ import ArrowStraight from "../assets/ArrowStraight";
 import ArrowTurn from "../assets/ArrowTurn";
 import Chevron from "../assets/Chevron";
 import { randomInteger, integerRange } from "../utils/number";
-import wonder from "../assets/wonder.mp3";
-import ReactHowler from "react-howler";
 import { playSound } from "../utils/sounds";
 
 const GameScreen = ({
@@ -145,7 +143,6 @@ const GameScreen = ({
         justifyContent: "space-around",
       }}
     >
-      <ReactHowler src={wonder} playing={false} loop preload />
       <p>
         Direction: <strong>{direction}</strong>
       </p>
