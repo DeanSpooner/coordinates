@@ -140,7 +140,7 @@ function App() {
         justifyContent: "space-around",
       }}
     >
-      <ReactHowler src={wonder} playing={true} loop />
+      <ReactHowler src={wonder} playing={false} loop preload />
       <p>
         Direction: <strong>{direction}</strong>
       </p>
