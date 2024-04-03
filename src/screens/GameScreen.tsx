@@ -8,8 +8,10 @@ import { playSound } from "../utils/sounds";
 
 const GameScreen = ({
   setScreen,
+  isSfxMuted,
 }: {
   setScreen: React.Dispatch<React.SetStateAction<string>>;
+  isSfxMuted: boolean;
 }) => {
   const [direction, setDirection] = useState("up");
 
@@ -130,9 +132,9 @@ const GameScreen = ({
         randomInteger(0, 4, [coordinates[1]]),
       ]);
       setScore(score + 1);
-      playSound("point");
+      !isSfxMuted && playSound("point");
     }
-  }, [coordinates, pelletCoordinates, score]);
+  }, [coordinates, isSfxMuted, pelletCoordinates, score]);
 
   return (
     <div
@@ -144,14 +146,7 @@ const GameScreen = ({
       }}
     >
       <p>
-        Direction: <strong>{direction}</strong>
-      </p>
-
-      <p>
         Score: <strong>{score}</strong>
-      </p>
-      <p>
-        Coordinates: x {coordinates[0]}, y {coordinates[1]}
       </p>
       <div
         style={{
@@ -218,7 +213,6 @@ const GameScreen = ({
           </DirectionButton>
         </div>
         <DirectionButton onClick={() => downKey()}>
-          {" "}
           <ArrowStraight
             style={{
               height: "8vh",
