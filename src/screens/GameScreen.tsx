@@ -148,8 +148,8 @@ const GameScreen = ({
       !isSfxMuted && playSound("point");
     }
     if (
-      coordinates[0] === deadCells[0] ||
-      (coordinates[1] === deadCells[1] && deadCellsActive)
+      (coordinates[0] === deadCells[0] || coordinates[1] === deadCells[1]) &&
+      deadCellsActive
     ) {
       setScore(0);
     }
@@ -168,13 +168,23 @@ const GameScreen = ({
         const xOrY = randomInteger(0, 1);
         const selectedCells = randomInteger(0, 4, [deadCells[xOrY]]);
         setDeadCells(xOrY === 0 ? [selectedCells, -1] : [-1, selectedCells]);
-        setDeadCellsActive(true);
+        setDeadCellsActive(false);
       }
-      setDeadCellTimer(randomInteger(2, 7) * 1000);
     }, deadCellTimer);
 
-    return () => clearInterval(intervalId); // Cleanup to avoid memory leaks
+    const newTimer = randomInteger(2, 7) * 1000;
+    setDeadCellTimer(newTimer); // Set the new timer value
+
+    return () => clearInterval(intervalId);
   }, [deadCellTimer, deadCells, isHard]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDeadCellsActive(true);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
+  }, [deadCells]);
 
   return (
     <div
@@ -188,6 +198,7 @@ const GameScreen = ({
       <p>
         Score: <strong>{score}</strong>
       </p>
+      <p>Dead cells are deadly: {deadCellsActive ? "true" : "false"}</p>
       <div
         style={{
           flexDirection: "column",
