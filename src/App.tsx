@@ -13,9 +13,8 @@ function App() {
 
   const [isMusicMuted, setIsMusicMuted] = useState(true);
 
-  const [track, setTrack] = useState(getMusicPath("wonder"));
-
-  setTrack("wonder");
+  // Update to useState when multiple tracks are available:
+  const track = getMusicPath("wonder");
 
   const [isSfxMuted, setIsSfxMuted] = useState(false);
 
