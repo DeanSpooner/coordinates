@@ -5,9 +5,11 @@ import { playSound } from "../utils/sounds";
 const TimerScreen = ({
   currentScreen,
   setScreen,
+  isSfxMuted,
 }: {
   currentScreen: "timerGame" | "timerGameHard";
   setScreen: React.Dispatch<React.SetStateAction<string>>;
+  isSfxMuted: boolean;
 }) => {
   const nextScreen = (() => {
     switch (currentScreen) {
@@ -23,8 +25,8 @@ const TimerScreen = ({
   const timerStrings = ["3", "2", "1", "GO"];
 
   useEffect(() => {
-    playSound("beeps", 0.25);
-  }, []);
+    !isSfxMuted && playSound("beeps", 0.25);
+  }, [isSfxMuted]);
 
   useEffect(() => {
     // Base case: If the countdown is completed, return early

@@ -17,7 +17,7 @@ function App() {
   // Update to useState when multiple tracks are available:
   const track = getMusicPath("wonder");
 
-  const [isSfxMuted, setIsSfxMuted] = useState(false);
+  const [isSfxMuted, setIsSfxMuted] = useState(true);
 
   return (
     <>
@@ -67,7 +67,11 @@ function App() {
       />
       {screen === "start" && <Start setScreen={setScreen} />}
       {(screen === "timerGame" || screen === "timerGameHard") && (
-        <TimerScreen setScreen={setScreen} currentScreen={screen} />
+        <TimerScreen
+          setScreen={setScreen}
+          currentScreen={screen}
+          isSfxMuted={isSfxMuted}
+        />
       )}
       {(screen === "game" || screen === "gameHard") && (
         <GameScreen

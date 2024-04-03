@@ -198,7 +198,6 @@ const GameScreen = ({
       <p>
         Score: <strong>{score}</strong>
       </p>
-      <p>Dead cells are deadly: {deadCellsActive ? "true" : "false"}</p>
       <div
         style={{
           flexDirection: "column",
