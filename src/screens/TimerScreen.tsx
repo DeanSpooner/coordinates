@@ -50,7 +50,7 @@ const TimerScreen = ({
     <div className="outer-container">
       <div className="loading-box-container">
         <div className="loading-box">
-          <p style={{ fontSize: 120 }}>{timerStrings[currentString]}</p>
+          <p style={{ fontSize: "5em" }}>{timerStrings[currentString]}</p>
         </div>
       </div>
     </div>

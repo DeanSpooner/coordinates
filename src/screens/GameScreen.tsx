@@ -8,10 +8,12 @@ import { playSound } from "../utils/sounds";
 
 const GameScreen = ({
   setScreen,
+  setFinalScore,
   isSfxMuted,
   isHard = false,
 }: {
   setScreen: React.Dispatch<React.SetStateAction<string>>;
+  setFinalScore: React.Dispatch<React.SetStateAction<number>>;
   isSfxMuted: boolean;
   isHard?: boolean;
 }) => {
@@ -20,6 +22,8 @@ const GameScreen = ({
   const [rotation, setRotation] = useState(90);
 
   const [coordinates, setCoordinates] = useState([2, 2]);
+
+  const [timer, setTimer] = useState(30);
 
   const xOrY = randomInteger(0, 1);
   const selectedCells = randomInteger(0, 4, [2]);
@@ -179,6 +183,19 @@ const GameScreen = ({
   }, [deadCellTimer, deadCells, isHard]);
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimer(prevState => prevState - 1);
+    }, 1000);
+
+    if (timer === -1) {
+      setScreen("score");
+      setFinalScore(score);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [score, setFinalScore, setScreen, timer]);
+
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       setDeadCellsActive(true);
     }, 1000);
@@ -197,6 +214,9 @@ const GameScreen = ({
     >
       <p>
         Score: <strong>{score}</strong>
+      </p>
+      <p>
+        Time left: <strong>{timer}</strong>
       </p>
       <div
         style={{
