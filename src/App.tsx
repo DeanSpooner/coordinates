@@ -9,6 +9,7 @@ import Speaker from "./assets/Speaker";
 import MusicSymbol from "./assets/MusicSymbol";
 import TimerScreen from "./screens/TimerScreen";
 import ScoreScreen from "./screens/ScoreScreen";
+import HomeSymbol from "./assets/HomeSymbol";
 
 function App() {
   const [screen, setScreen] = useState("start");
@@ -69,6 +70,14 @@ function App() {
             />
           )}
         </SoundButton>
+        <SoundButton onClick={() => screen !== "start" && setScreen("start")}>
+          <HomeSymbol
+            style={{
+              height: "8vh",
+              width: "8vh",
+            }}
+          />
+        </SoundButton>
         <ReactHowler
           src={track}
           volume={0.5}
@@ -104,8 +113,8 @@ function App() {
 export default App;
 
 const SoundButton = styled.button`
-  width: 40vw;
-  max-width: 200px;
+  width: 150px;
+  max-width: 30vw;
   height: 10vh;
 `;
 

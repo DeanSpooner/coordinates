@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 const Start = ({
   setScreen,
@@ -6,11 +7,26 @@ const Start = ({
   setScreen: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
-    <div>
-      <button onClick={() => setScreen("timerGame")}>Start</button>
-      <button onClick={() => setScreen("timerGameHard")}>Start Hard</button>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "40vh",
+        justifyContent: "space-between",
+        paddingTop: "20vh",
+      }}
+    >
+      <StartButton onClick={() => setScreen("timerGame")}>Start</StartButton>
+      <StartButton onClick={() => setScreen("timerGameHard")}>
+        Start Hard
+      </StartButton>
     </div>
   );
 };
 
 export default Start;
+
+export const StartButton = styled.button`
+  height: 10vh;
+  font-size: 2.5em;
+`;

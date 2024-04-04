@@ -1,3 +1,5 @@
+import { StartButton } from "./Start";
+
 const ScoreScreen = ({
   setScreen,
   finalScore,
@@ -6,11 +8,19 @@ const ScoreScreen = ({
   finalScore: number;
 }) => {
   return (
-    <div>
-      <p>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "40vh",
+        justifyContent: "space-between",
+        paddingTop: "20vh",
+      }}
+    >
+      <p style={{ fontSize: "1.5em" }}>
         Your final score is: <strong>{finalScore}</strong>
       </p>
-      <button onClick={() => setScreen("start")}>Return home</button>
+      <StartButton onClick={() => setScreen("start")}>Return home</StartButton>
     </div>
   );
 };

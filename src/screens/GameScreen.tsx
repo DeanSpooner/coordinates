@@ -208,16 +208,18 @@ const GameScreen = ({
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "80vh",
+        height: "70vh",
         justifyContent: "space-around",
       }}
     >
-      <p>
-        Score: <strong>{score}</strong>
-      </p>
-      <p>
-        Time left: <strong>{timer}</strong>
-      </p>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <p style={{ fontSize: "1.5em" }}>
+          Score: <strong>{score}</strong>
+        </p>
+        <p style={{ fontSize: "1.5em" }}>
+          Time left: <strong>{timer}</strong>
+        </p>
+      </div>
       <div
         style={{
           flexDirection: "column",
@@ -297,7 +299,6 @@ const GameScreen = ({
           />
         </DirectionButton>
       </div>
-      <button onClick={() => setScreen("start")}>Quit</button>
     </div>
   );
 };

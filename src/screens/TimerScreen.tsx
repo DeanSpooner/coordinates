@@ -25,7 +25,7 @@ const TimerScreen = ({
   const timerStrings = ["3", "2", "1", "GO"];
 
   useEffect(() => {
-    !isSfxMuted && playSound("beeps", 0.25);
+    playSound("beeps", 0.25);
   }, [isSfxMuted]);
 
   useEffect(() => {
