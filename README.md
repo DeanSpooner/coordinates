@@ -1,6 +1,6 @@
 <div align="center">
 
-# Coordinates by [Dean Spooner](https://github.com/DeanSpooner)
+# [Coordinates](https://deanspooner.github.io/coordinates/) by [Dean Spooner](https://github.com/DeanSpooner)
 
 <img src="src/assets/Chevron.png" width="200px"/>
 </div>
