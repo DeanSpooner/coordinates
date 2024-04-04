@@ -34,50 +34,50 @@ function App() {
     <>
       <Slider sliderShown={sliderShown} />
       <Wrapper sliderShown={sliderShown}>
-        <SoundButton onClick={() => setIsMusicMuted(prevState => !prevState)}>
+        <TopButton onClick={() => setIsMusicMuted(prevState => !prevState)}>
           {isMusicMuted ? (
             <MusicSymbol
               style={{
-                height: "8vh",
-                width: "8vh",
+                height: "6vh",
+                width: "6vh",
               }}
               fillColor="grey"
             />
           ) : (
             <MusicSymbol
               style={{
-                height: "8vh",
-                width: "8vh",
+                height: "6vh",
+                width: "6vh",
               }}
             />
           )}
-        </SoundButton>
-        <SoundButton onClick={() => setIsSfxMuted(prevState => !prevState)}>
+        </TopButton>
+        <TopButton onClick={() => setIsSfxMuted(prevState => !prevState)}>
           {isSfxMuted ? (
             <Speaker
               style={{
-                height: "8vh",
-                width: "8vh",
+                height: "6vh",
+                width: "6vh",
               }}
               fillColor="grey"
             />
           ) : (
             <Speaker
               style={{
-                height: "8vh",
-                width: "8vh",
+                height: "6vh",
+                width: "6vh",
               }}
             />
           )}
-        </SoundButton>
-        <SoundButton onClick={() => screen !== "start" && setScreen("start")}>
+        </TopButton>
+        <TopButton onClick={() => screen !== "start" && setScreen("start")}>
           <HomeSymbol
             style={{
-              height: "8vh",
-              width: "8vh",
+              height: "6vh",
+              width: "6vh",
             }}
           />
-        </SoundButton>
+        </TopButton>
         <ReactHowler
           src={track}
           volume={0.5}
@@ -112,7 +112,7 @@ function App() {
 
 export default App;
 
-const SoundButton = styled.button`
+const TopButton = styled.button`
   width: 150px;
   max-width: 30vw;
   height: 10vh;
