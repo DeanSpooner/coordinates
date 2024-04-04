@@ -7,7 +7,7 @@ const TimerScreen = ({
   setScreen,
   isSfxMuted,
 }: {
-  currentScreen: "timerGame" | "timerGameHard";
+  currentScreen: "timerGame" | "timerGameHard" | "timerGameExtraHard";
   setScreen: React.Dispatch<React.SetStateAction<string>>;
   isSfxMuted: boolean;
 }) => {
@@ -17,6 +17,8 @@ const TimerScreen = ({
         return "game";
       case "timerGameHard":
         return "gameHard";
+      case "timerGameExtraHard":
+        return "gameExtraHard";
     }
   })();
 

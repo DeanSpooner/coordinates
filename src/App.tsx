@@ -87,18 +87,23 @@ function App() {
           playing={!isMusicMuted}
         />
         {screen === "start" && <Start setScreen={setScreen} />}
-        {(screen === "timerGame" || screen === "timerGameHard") && (
+        {(screen === "timerGame" ||
+          screen === "timerGameHard" ||
+          screen === "timerGameExtraHard") && (
           <TimerScreen
             setScreen={setScreen}
             currentScreen={screen}
             isSfxMuted={isSfxMuted}
           />
         )}
-        {(screen === "game" || screen === "gameHard") && (
+        {(screen === "game" ||
+          screen === "gameHard" ||
+          screen === "gameExtraHard") && (
           <GameScreen
             setScreen={setScreen}
             isSfxMuted={isSfxMuted}
             isHard={screen === "gameHard"}
+            isExtraHard={screen === "gameExtraHard"}
             setFinalScore={setFinalScore}
           />
         )}

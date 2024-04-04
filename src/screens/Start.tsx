@@ -20,6 +20,9 @@ const Start = ({
       <StartButton onClick={() => setScreen("timerGameHard")}>
         Start Hard
       </StartButton>
+      <StartButton onClick={() => setScreen("timerGameExtraHard")}>
+        Start Extra Hard
+      </StartButton>
     </div>
   );
 };

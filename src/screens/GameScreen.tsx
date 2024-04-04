@@ -11,11 +11,13 @@ const GameScreen = ({
   setFinalScore,
   isSfxMuted,
   isHard = false,
+  isExtraHard = false,
 }: {
   setScreen: React.Dispatch<React.SetStateAction<string>>;
   setFinalScore: React.Dispatch<React.SetStateAction<number>>;
   isSfxMuted: boolean;
   isHard?: boolean;
+  isExtraHard?: boolean;
 }) => {
   const [direction, setDirection] = useState("up");
 
@@ -28,13 +30,25 @@ const GameScreen = ({
   const xOrY = randomInteger(0, 1);
   const selectedCells = randomInteger(0, 4, [2]);
 
+  const selectedCellsY = randomInteger(0, 4, [2]);
+
   const [deadCells, setDeadCells] = useState(
-    isHard ? (xOrY === 0 ? [selectedCells, -1] : [-1, selectedCells]) : [-1, -1]
+    isHard
+      ? xOrY === 0
+        ? [selectedCells, -1]
+        : [-1, selectedCells]
+      : isExtraHard
+      ? [selectedCells, selectedCellsY]
+      : [-1, -1]
   );
 
   const [deadCellsActive, setDeadCellsActive] = useState(false);
 
-  const [deadCellTimer, setDeadCellTimer] = useState(5000);
+  const startingDeadCellTimer = isExtraHard
+    ? randomInteger(1, 4) * 1000
+    : randomInteger(2, 7) * 1000;
+
+  const [deadCellTimer, setDeadCellTimer] = useState(startingDeadCellTimer);
 
   const [pelletCoordinates, setPelletCoordinates] = useState([
     randomInteger(0, 4, [2]),
@@ -173,14 +187,21 @@ const GameScreen = ({
         const selectedCells = randomInteger(0, 4, [deadCells[xOrY]]);
         setDeadCells(xOrY === 0 ? [selectedCells, -1] : [-1, selectedCells]);
         setDeadCellsActive(false);
+      } else if (isExtraHard) {
+        const selectedCellsX = randomInteger(0, 4, [deadCells[0]]);
+        const selectedCellsY = randomInteger(0, 4, [deadCells[1]]);
+        setDeadCells([selectedCellsX, selectedCellsY]);
+        setDeadCellsActive(false);
       }
     }, deadCellTimer);
 
-    const newTimer = randomInteger(2, 7) * 1000;
+    const newTimer = isExtraHard
+      ? randomInteger(1, 4) * 1000
+      : randomInteger(2, 7) * 1000;
     setDeadCellTimer(newTimer); // Set the new timer value
 
     return () => clearInterval(intervalId);
-  }, [deadCellTimer, deadCells, isHard]);
+  }, [deadCellTimer, deadCells, isExtraHard, isHard]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
