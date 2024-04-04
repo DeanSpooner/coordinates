@@ -3,9 +3,10 @@
 # [Coordinates](https://deanspooner.github.io/coordinates/) by [Dean Spooner](https://github.com/DeanSpooner)
 
 <img src="src/assets/Chevron.png" width="200px"/>
-</div>
 
 ## A simple set of grid-based games - what score can you get?
+
+</div>
 
 ---
 
